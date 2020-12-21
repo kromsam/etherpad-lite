@@ -19,10 +19,19 @@
 let documentAttributeManager;
 
 const browser = require('./browser');
+<<<<<<< HEAD
 const padutils = require('./pad_utils').padutils;
 const Ace2Common = require('./ace2_common');
 const $ = require('./rjquery').$;
 const _ = require('./underscore');
+=======
+
+Ace2Common = require('./ace2_common');
+
+plugins = require('ep_etherpad-lite/static/js/pluginfw/client_plugins');
+$ = jQuery = require('./rjquery').$;
+_ = require('./underscore');
+>>>>>>> f1c78dacc1a3d680763a5afbb657167b4e09ad46
 
 const isNodeText = Ace2Common.isNodeText;
 const getAssoc = Ace2Common.getAssoc;
@@ -1184,6 +1193,7 @@ function Ace2Inner() {
         const linesWrapped = ccData.linesWrapped;
 
         if (linesWrapped > 0) {
+<<<<<<< HEAD
           // chrome decides in it's infinite wisdom that its okay to put the
           // browsers visisble window in the middle of the span
           // an outcome of this is that the first chars of the string
@@ -1191,6 +1201,14 @@ function Ace2Inner() {
           // Move the browsers visible area to the left hand side of the span
           // Firefox isn't quite so bad, but it's still pretty quirky.
           scrollToTheLeftNeeded = true;
+=======
+          // Chrome decides in its infinite wisdom that it's okay to put the browser's visisble
+          // window in the middle of the span. An outcome of this is that the first chars of the
+          // string are no longer visible to the user.. Yay chrome.. Move the browser's visible area
+          // to the left hand side of the span. Firefox isn't quite so bad, but it's still pretty
+          // quirky.
+          var scrollToTheLeftNeeded = true;
+>>>>>>> f1c78dacc1a3d680763a5afbb657167b4e09ad46
         }
 
         if (ss[0] >= 0) selStart = [ss[0] + a + netNumLinesChangeSoFar, ss[1]];
@@ -1438,7 +1456,11 @@ function Ace2Inner() {
     let n = lineNode;
     let after = false;
     if (charsLeft === 0) {
+<<<<<<< HEAD
       const index = 0;
+=======
+      let index = 0;
+>>>>>>> f1c78dacc1a3d680763a5afbb657167b4e09ad46
       return {
         node: lineNode,
         index,
@@ -1471,7 +1493,13 @@ function Ace2Inner() {
     };
   };
 
+<<<<<<< HEAD
   const nodeText = (n) => n.textContent || n.nodeValue || '';
+=======
+  function nodeText(n) {
+    return n.textContent || n.nodeValue || '';
+  }
+>>>>>>> f1c78dacc1a3d680763a5afbb657167b4e09ad46
 
   const getLineAndCharForPoint = (point) => {
     // Turn DOM node selection into [line,char] selection.
@@ -2230,9 +2258,17 @@ function Ace2Inner() {
           hasAttributeOnSelectionOrCaretPosition(style);
       updateStyleButtonState(style, hasStyleOnRepSelection);
     });
+<<<<<<< HEAD
   };
 
   const doCreateDomLine = (nonEmpty) => domline.createDomLine(nonEmpty, doesWrap, browser, doc);
+=======
+  }
+
+  function doCreateDomLine(nonEmpty) {
+    return domline.createDomLine(nonEmpty, doesWrap, browser, doc);
+  }
+>>>>>>> f1c78dacc1a3d680763a5afbb657167b4e09ad46
 
   const textify = (str) => str.
       replace(/[\n\r ]/g, ' ').
@@ -2755,7 +2791,46 @@ function Ace2Inner() {
   const isWordChar = (c) => padutils.wordCharRegex.test(c);
   editorInfo.ace_isWordChar = isWordChar;
 
+<<<<<<< HEAD
   const handleKeyEvent = (evt) => {
+=======
+  function isSpaceChar(c) {
+    return !!REGEX_SPACE.exec(c);
+  }
+
+  function moveByWordInLine(lineText, initialIndex, forwardNotBack) {
+    let i = initialIndex;
+
+    function nextChar() {
+      if (forwardNotBack) return lineText.charAt(i);
+      else return lineText.charAt(i - 1);
+    }
+
+    function advance() {
+      if (forwardNotBack) i++;
+      else i--;
+    }
+
+    function isDone() {
+      if (forwardNotBack) return i >= lineText.length;
+      else return i <= 0;
+    }
+
+    // On Mac and Linux, move right moves to end of word and move left moves to start;
+    // on Windows, always move to start of word.
+    // On Windows, Firefox and IE disagree on whether to stop for punctuation (FF says no).
+    while ((!isDone()) && !isWordChar(nextChar())) {
+      advance();
+    }
+    while ((!isDone()) && isWordChar(nextChar())) {
+      advance();
+    }
+
+    return i;
+  }
+
+  function handleKeyEvent(evt) {
+>>>>>>> f1c78dacc1a3d680763a5afbb657167b4e09ad46
     if (!isEditable) return;
     const type = evt.type;
     const charCode = evt.charCode;
@@ -2786,6 +2861,7 @@ function Ace2Inner() {
       return;
     }
     let specialHandled = false;
+<<<<<<< HEAD
     const isTypeForSpecialKey = ((browser.safari ||
       browser.chrome ||
       browser.firefox) ? (type === 'keydown') : (type === 'keypress'));
@@ -2793,6 +2869,10 @@ function Ace2Inner() {
       browser.chrome ||
       browser.firefox) ? (type === 'keydown') : (type === 'keypress'));
 
+=======
+    const isTypeForSpecialKey = ((browser.safari || browser.chrome || browser.firefox) ? (type == 'keydown') : (type == 'keypress'));
+    const isTypeForCmdKey = ((browser.safari || browser.chrome || browser.firefox) ? (type == 'keydown') : (type == 'keypress'));
+>>>>>>> f1c78dacc1a3d680763a5afbb657167b4e09ad46
     let stopped = false;
 
     inCallStackIfNecessary('handleKeyEvent', function () {
@@ -3364,16 +3444,26 @@ function Ace2Inner() {
   editorInfo.ace_performDocumentReplaceRange = performDocumentReplaceRange;
   editorInfo.ace_performDocumentReplaceCharRange = performDocumentReplaceCharRange;
 
+<<<<<<< HEAD
   const nodeMaxIndex = (nd) => {
     if (isNodeText(nd)) return nd.nodeValue.length;
     else return 1;
   };
 
   const getSelection = () => {
+=======
+  function nodeMaxIndex(nd) {
+    if (isNodeText(nd)) return nd.nodeValue.length;
+    else return 1;
+  }
+
+  function getSelection() {
+>>>>>>> f1c78dacc1a3d680763a5afbb657167b4e09ad46
     // returns null, or a structure containing startPoint and endPoint,
     // each of which has node (a magicdom node), index, and maxIndex.  If the node
     // is a text node, maxIndex is the length of the text; else maxIndex is 1.
     // index is between 0 and maxIndex, inclusive.
+<<<<<<< HEAD
     const browserSelection = window.getSelection();
     if (browserSelection && browserSelection.type !== 'None' && browserSelection.rangeCount !== 0) {
       const range = browserSelection.getRangeAt(0);
@@ -3460,23 +3550,116 @@ function Ace2Inner() {
     let isCollapsed;
 
     const pointToRangeBound = (pt) => {
+=======
+    var browserSelection = window.getSelection();
+    if (!browserSelection || browserSelection.type === 'None' ||
+        browserSelection.rangeCount === 0) {
+      return null;
+    }
+    const range = browserSelection.getRangeAt(0);
+
+    function isInBody(n) {
+      while (n && !(n.tagName && n.tagName.toLowerCase() == 'body')) {
+        n = n.parentNode;
+      }
+      return !!n;
+    }
+
+    function pointFromRangeBound(container, offset) {
+      if (!isInBody(container)) {
+        // command-click in Firefox selects whole document, HEAD and BODY!
+        return {
+          node: root,
+          index: 0,
+          maxIndex: 1,
+        };
+      }
+      const n = container;
+      const childCount = n.childNodes.length;
+      if (isNodeText(n)) {
+        return {
+          node: n,
+          index: offset,
+          maxIndex: n.nodeValue.length,
+        };
+      } else if (childCount === 0) {
+        return {
+          node: n,
+          index: 0,
+          maxIndex: 1,
+        };
+      }
+      // treat point between two nodes as BEFORE the second (rather than after the first)
+      // if possible; this way point at end of a line block-element is treated as
+      // at beginning of next line
+      else if (offset == childCount) {
+        var nd = n.childNodes.item(childCount - 1);
+        var max = nodeMaxIndex(nd);
+        return {
+          node: nd,
+          index: max,
+          maxIndex: max,
+        };
+      } else {
+        var nd = n.childNodes.item(offset);
+        var max = nodeMaxIndex(nd);
+        return {
+          node: nd,
+          index: 0,
+          maxIndex: max,
+        };
+      }
+    }
+    var selection = {};
+    selection.startPoint = pointFromRangeBound(range.startContainer, range.startOffset);
+    selection.endPoint = pointFromRangeBound(range.endContainer, range.endOffset);
+    selection.focusAtStart = (((range.startContainer != range.endContainer) || (range.startOffset != range.endOffset)) && browserSelection.anchorNode && (browserSelection.anchorNode == range.endContainer) && (browserSelection.anchorOffset == range.endOffset));
+
+    if (selection.startPoint.node.ownerDocument !== window.document) {
+      return null;
+    }
+
+    return selection;
+  }
+
+  function setSelection(selection) {
+    function copyPoint(pt) {
+      return {
+        node: pt.node,
+        index: pt.index,
+        maxIndex: pt.maxIndex,
+      };
+    }
+    let isCollapsed;
+
+    function pointToRangeBound(pt) {
+>>>>>>> f1c78dacc1a3d680763a5afbb657167b4e09ad46
       const p = copyPoint(pt);
       // Make sure Firefox cursor is deep enough; fixes cursor jumping when at top level,
       // and also problem where cut/copy of a whole line selected with fake arrow-keys
       // copies the next line too.
       if (isCollapsed) {
+<<<<<<< HEAD
         const diveDeep = () => {
+=======
+        function diveDeep() {
+>>>>>>> f1c78dacc1a3d680763a5afbb657167b4e09ad46
           while (p.node.childNodes.length > 0) {
             // && (p.node == root || p.node.parentNode == root)) {
             if (p.index === 0) {
               p.node = p.node.firstChild;
               p.maxIndex = nodeMaxIndex(p.node);
+<<<<<<< HEAD
             } else if (p.index === p.maxIndex) {
+=======
+            } else if (p.index == p.maxIndex) {
+>>>>>>> f1c78dacc1a3d680763a5afbb657167b4e09ad46
               p.node = p.node.lastChild;
               p.maxIndex = nodeMaxIndex(p.node);
               p.index = p.maxIndex;
             } else { break; }
           }
+<<<<<<< HEAD
         };
         // now fix problem where cursor at end of text node at end of span-like element
         // with background doesn't seem to show up...
@@ -3491,6 +3674,17 @@ function Ace2Inner() {
               n.nextSibling.tagName.toLowerCase() === 'br')) &&
               (n !== p.node) && (n !== root) && (n.parentNode !== root)
           ) {
+=======
+        }
+        // now fix problem where cursor at end of text node at end of span-like element
+        // with background doesn't seem to show up...
+        if (isNodeText(p.node) && p.index == p.maxIndex) {
+          let n = p.node;
+          while ((!n.nextSibling) && (n != root) && (n.parentNode != root)) {
+            n = n.parentNode;
+          }
+          if (n.nextSibling && (!((typeof n.nextSibling.tagName) === 'string' && n.nextSibling.tagName.toLowerCase() == 'br')) && (n != p.node) && (n != root) && (n.parentNode != root)) {
+>>>>>>> f1c78dacc1a3d680763a5afbb657167b4e09ad46
             // found a parent, go to next node and dive in
             p.node = n.nextSibling;
             p.maxIndex = nodeMaxIndex(p.node);
@@ -3516,11 +3710,16 @@ function Ace2Inner() {
           offset: childIndex(p.node) + p.index,
         };
       }
+<<<<<<< HEAD
     };
+=======
+    }
+>>>>>>> f1c78dacc1a3d680763a5afbb657167b4e09ad46
     const browserSelection = window.getSelection();
     if (browserSelection) {
       browserSelection.removeAllRanges();
       if (selection) {
+<<<<<<< HEAD
         isCollapsed = (
           selection.startPoint.node === selection.endPoint.node &&
           selection.startPoint.index === selection.endPoint.index
@@ -3534,12 +3733,23 @@ function Ace2Inner() {
           browserSelection.collapse &&
           browserSelection.extend
         ) {
+=======
+        isCollapsed = (selection.startPoint.node === selection.endPoint.node && selection.startPoint.index === selection.endPoint.index);
+        const start = pointToRangeBound(selection.startPoint);
+        const end = pointToRangeBound(selection.endPoint);
+
+        if ((!isCollapsed) && selection.focusAtStart && browserSelection.collapse && browserSelection.extend) {
+>>>>>>> f1c78dacc1a3d680763a5afbb657167b4e09ad46
           // can handle "backwards"-oriented selection, shift-arrow-keys move start
           // of selection
           browserSelection.collapse(end.container, end.offset);
           browserSelection.extend(start.container, start.offset);
         } else {
+<<<<<<< HEAD
           const range = doc.createRange();
+=======
+          var range = doc.createRange();
+>>>>>>> f1c78dacc1a3d680763a5afbb657167b4e09ad46
           range.setStart(start.container, start.offset);
           range.setEnd(end.container, end.offset);
           browserSelection.removeAllRanges();
@@ -3575,10 +3785,17 @@ function Ace2Inner() {
     _.each(_teardownActions, (a) => {
       a();
     });
+<<<<<<< HEAD
   };
 
   let inInternationalComposition = false;
   const handleCompositionEvent = (evt) => {
+=======
+  }
+
+  var inInternationalComposition = false;
+  function handleCompositionEvent(evt) {
+>>>>>>> f1c78dacc1a3d680763a5afbb657167b4e09ad46
     // international input events, fired in FF3, at least;  allow e.g. Japanese input
     if (evt.type === 'compositionstart') {
       inInternationalComposition = true;
@@ -3600,6 +3817,11 @@ function Ace2Inner() {
     // Will break OL re-numbering: https://github.com/ether/etherpad-lite/pull/2533
     // $(document).on("cut", handleCut);
 
+<<<<<<< HEAD
+=======
+    $(root).on('blur', handleBlur);
+
+>>>>>>> f1c78dacc1a3d680763a5afbb657167b4e09ad46
     // If non-nullish, pasting on a link should be suppressed.
     let suppressPasteOnLink = null;
 
@@ -3675,10 +3897,16 @@ function Ace2Inner() {
       });
     });
 
+<<<<<<< HEAD
     // CompositionEvent is not implemented below IE version 8
     $(document.documentElement).on('compositionstart', handleCompositionEvent);
     $(document.documentElement).on('compositionend', handleCompositionEvent);
   };
+=======
+    $(document.documentElement).on('compositionstart', handleCompositionEvent);
+    $(document.documentElement).on('compositionend', handleCompositionEvent);
+  }
+>>>>>>> f1c78dacc1a3d680763a5afbb657167b4e09ad46
 
   const topLevel = (n) => {
     if ((!n) || n === root) return null;
@@ -3686,7 +3914,31 @@ function Ace2Inner() {
       n = n.parentNode;
     }
     return n;
+<<<<<<< HEAD
   };
+=======
+  }
+
+  function getClassArray(elem, optFilter) {
+    const bodyClasses = [];
+    (elem.className || '').replace(/\S+/g, (c) => {
+      if ((!optFilter) || (optFilter(c))) {
+        bodyClasses.push(c);
+      }
+    });
+    return bodyClasses;
+  }
+
+  function setClassArray(elem, array) {
+    elem.className = array.join(' ');
+  }
+
+  function focus() {
+    window.focus();
+  }
+
+  function handleBlur(evt) {}
+>>>>>>> f1c78dacc1a3d680763a5afbb657167b4e09ad46
 
   const getSelectionPointX = (point) => {
     // doesn't work in wrap-mode
